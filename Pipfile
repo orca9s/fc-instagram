@@ -10,6 +10,7 @@ pillow = "*"
 requests = "*"
 djangorestframework = "*"
 django-extensions = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 ipython = "*"

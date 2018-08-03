@@ -41,34 +41,34 @@
 		<img width="100%" src="{{ post.photo.url }}" alt="">
 		{% endif %}
 
-{#		{% if post.tags.exists %}#}
-{#			<div class="container p-2">#}
-{#				<div>#}
-{#					<!-- user.like_posts.all에 현재 post가 속하는지 -->#}
-{#					{% if post in user.like_posts.all %}#}
-{#					<form action="{% url 'posts:post-dislike' pk=post.pk %}"#}
-{#								method="POST">#}
-{#						{% csrf_token %}#}
-{#						<button class="btn btn-sm btn-primary">좋아요 해제</button>#}
-{#					</form>#}
-{#					{% else %}#}
-{#					<form action="{% url 'posts:post-like' pk=post.pk %}"#}
-{#								method="POST">#}
-{#						{% csrf_token %}#}
-{#						<button class="btn btn-sm btn-outline-primary">좋아요</button>#}
-{#					</form>#}
-{#					{% endif %}#}
-{#				</div>#}
-{#				<p>{{ post.content_html|safe|linebreaksbr }}</p>#}
-{#			</div>#}
-{#		{% endif %}#}
-{#		<br>#}
-{##}
-{#		<ul>#}
-{#			{% for comment in post.comments.all %}#}
-{#				{% include 'include/posts/comment.html' %}#}
-{#			{% endfor %}#}
-{#		</ul>#}
+		{% if post.tags.exists %}
+			<div class="container p-2">
+				<div>
+					<!-- user.like_posts.all에 현재 post가 속하는지 -->
+					{% if post in user.like_posts.all %}
+					<form action="{% url 'posts:post-dislike' pk=post.pk %}"
+								method="POST">
+						{% csrf_token %}
+						<button class="btn btn-sm btn-primary">좋아요 해제</button>
+					</form>
+					{% else %}
+					<form action="{% url 'posts:post-like' pk=post.pk %}"
+								method="POST">
+						{% csrf_token %}
+						<button class="btn btn-sm btn-outline-primary">좋아요</button>
+					</form>
+					{% endif %}
+				</div>
+				<p>{{ post.content_html|safe|linebreaksbr }}</p>
+			</div>
+		{% endif %}
+		<br>
+
+		<ul>
+			{% for comment in post.comments.all %}
+				{% include 'include/posts/comment.html' %}
+			{% endfor %}
+		</ul>
 		<div>
 			<form action="{% url 'posts:comment-create' post_pk=post.pk %}" method="POST">
 				{% csrf_token %}
