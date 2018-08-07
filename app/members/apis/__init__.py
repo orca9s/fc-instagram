@@ -47,7 +47,7 @@ class AuthenticationTest(APIView):
             return Response(UserSerializer(request.user).data)
         raise NotAuthenticated('로그인 되어있지 않습니다.')
 
-class FacebookLogin(APIView):
+class FacebookAuthToken(APIView):
     def post(self, request):
         facebook_id = request.data.get('facebook_id')
         last_name = request.data.get('last_name')
@@ -62,6 +62,7 @@ class FacebookLogin(APIView):
         token, __ = Token.objects.get_or_create(user=user)
         data = {
             'token': token.key,
+            'user': UserSerializer(user).data,
         }
         return Response(data)
         # if User.objects.filter(username=facebook_id).exists():
@@ -73,3 +74,14 @@ class FacebookLogin(APIView):
         # 2. 존재하지 않는다면 'first_name'과 'last_name'값을 추가로 사용해 생성한 User에
         #   -> 해당하는 Token을 가져오가나 새로 생성해서 리턴
         # 결과는 Postman으로 확인
+
+
+class Profile(APIView):
+    def get(self, request):
+        # URL: /api/users/profile/
+        # request.user가 인증되어 있으면
+        #   UserSerializer로 serialize한 결과를 리턴
+        # 인증 안되어 있으면 NotAuthenticated예외 발생
+        if request.user.is_authenticated:
+            return Response(UserSerializer(request.user).data)
+        raise NotAuthenticated('인증 안됨')
